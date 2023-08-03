@@ -1,0 +1,13 @@
+.DS_Store
+*.pyc
+__pycache__
+.idea
+
+buffers/
+logs/
+scripts/
+docker/
+.direnv/
+.env
+wandb/
+scratch/
