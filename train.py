@@ -1,15 +1,13 @@
 import os
-import glob
-import time
 from datetime import datetime
 
 import torch
 import numpy as np
 
 import gym
-import roboschool
 
 from PPO import PPO
+
 
 ################################### Training ###################################
 def train():
@@ -210,12 +208,10 @@ def train():
 
     # training loop
     while time_step <= max_training_timesteps:
-
         state = env.reset()
         current_ep_reward = 0
 
         for t in range(1, max_ep_len + 1):
-
             # select action with policy
             action = ppo_agent.select_action(state)
             state, reward, done, _ = env.step(action)
@@ -237,7 +233,6 @@ def train():
 
             # log in logging file
             if time_step % log_freq == 0:
-
                 # log average reward till last episode
                 log_avg_reward = log_running_reward / log_running_episodes
                 log_avg_reward = round(log_avg_reward, 4)
@@ -250,7 +245,6 @@ def train():
 
             # printing average reward
             if time_step % print_freq == 0:
-
                 # print average reward till last episode
                 print_avg_reward = print_running_reward / print_running_episodes
                 print_avg_reward = round(print_avg_reward, 2)
@@ -309,5 +303,4 @@ def train():
 
 
 if __name__ == "__main__":
-
     train()
