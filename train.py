@@ -16,9 +16,9 @@ def train():
     )
 
     ####### initialize environment hyperparameters ######
-    env_name = "RoboschoolWalker2d-v1"
+    env_name = "CartPole-v1"
 
-    has_continuous_action_space = True  # continuous action space; else discrete
+    has_continuous_action_space = False  # continuous action space; else discrete
 
     max_ep_len = 1000  # max timesteps in one episode
     max_training_timesteps = int(
