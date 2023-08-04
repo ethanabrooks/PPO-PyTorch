@@ -4,6 +4,7 @@ from typing import Optional
 
 import torch
 import numpy as np
+from ray.air import session
 
 import gym
 
@@ -246,8 +247,10 @@ def train(
             if time_step % log_freq == 0:
                 # log average reward till last episode
                 log_avg_reward = log_running_reward / log_running_episodes
+                log = dict(mean_accuracy=log_avg_reward)
                 if run is not None:
-                    run.log(dict(mean_accuracy=log_avg_reward), step=time_step)
+                    run.log(log, step=time_step)
+                session.report(log)
                 log_avg_reward = round(log_avg_reward, 4)
 
                 log_f.write("{},{},{}\n".format(i_episode, time_step, log_avg_reward))
