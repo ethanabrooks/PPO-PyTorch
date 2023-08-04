@@ -15,7 +15,7 @@ import icpi
 @command()
 def train(
     env_name: str,
-    gamma: float = 0.99,  # discount factor
+    gamma: float = 0.8,  # discount factor
     has_continuous_action_space: bool = False,  # continuous action space vs discrete action space
     hidden_dim: int = 64,
     lr_actor: float = 0.0003,  # learning rate for actor network
@@ -29,7 +29,7 @@ def train(
     ####### initialize environment hyperparameters ######
     max_ep_len = 1000  # max timesteps in one episode
     max_training_timesteps = int(
-        3e6
+        100_000
     )  # break training loop if timeteps > max_training_timesteps
 
     print_freq = max_ep_len * 10  # print avg reward in the interval (in num timesteps)
