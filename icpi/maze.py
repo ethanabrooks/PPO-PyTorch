@@ -59,11 +59,7 @@ class Env(base.Env[C, int]):
 
     def __post_init__(self):
         self.random = np.random.default_rng(self.random_seed)
-        self.action_space = Discrete(len(self.actions()), seed=self.random_seed)
-        self.reset()
-        self.observation_space = gym.spaces.Box(
-            low=0, high=1, shape=self.obs_array().shape
-        )
+        self.action_space = Discrete(len(self.actions()))
 
         def patch(*seq: T) -> Iterator[Tuple[T, T, T]]:
             """
@@ -139,6 +135,10 @@ class Env(base.Env[C, int]):
                     if distance < self.distance[n2]:
                         self.distance[n2] = distance
         assert not np.any(np.isinf(self.distance))
+        self.reset()
+        self.observation_space = gym.spaces.Box(
+            low=0, high=1, shape=self.obs_array().shape
+        )
 
     @staticmethod
     def action_stop() -> str:

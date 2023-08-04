@@ -44,8 +44,8 @@ register(
 #     )
 register(
     "maze-v0",
-    entry_point="icpi.maze:create",
-    kwargs={"random_seed": 0, "max_episode_step": 8},
+    entry_point="icpi.base:create",
+    kwargs={"entry_point": "icpi.maze:Env", "random_seed": 0, "max_episode_steps": 8},
 )
 # elif env_id == "mini-catch":
 #     env = catch.Wrapper(
@@ -53,8 +53,14 @@ register(
 #     )
 register(
     "mini-catch-v0",
-    entry_point="icpi.catch:create",
-    kwargs={"columns": 4, "rows": 5, "seed": 0},
+    entry_point="icpi.base:create",
+    kwargs={
+        "entry_point": "icpi.catch:Env",
+        "columns": 4,
+        "rows": 5,
+        "seed": 0,
+        "max_episode_steps": 100,
+    },
 )
 # elif env_id == "point-mass":
 #     max_steps = 8
@@ -71,8 +77,9 @@ register(
 #     )
 register(
     "point-mass-v0",
-    entry_point="icpi.point_mass:create",
+    entry_point="icpi.base:create",
     kwargs={
+        "entry_point": "icpi.point_mass:Env",
         "max_distance": 6,
         "max_trajectory": 8,
         "pos_threshold": 2,
@@ -91,8 +98,9 @@ register(
 #     )
 register(
     "space-invaders-v0",
-    entry_point="icpi.space_invaders:create",
+    entry_point="icpi.base:create",
     kwargs={
+        "entry_point": "icpi.space_invaders:create",
         "width": 4,
         "height": 5,
         "n_aliens": 2,
