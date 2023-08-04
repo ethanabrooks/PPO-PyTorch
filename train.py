@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from typing import Optional
 
 import torch
 import numpy as np
@@ -8,7 +9,7 @@ import gym
 
 from PPO import PPO
 from dollar_lambda import command
-from ray.air import session
+from wandb.sdk.wandb_run import Run
 
 import icpi
 
@@ -24,6 +25,7 @@ def train(
     lr_critic: float = 0.001,  # learning rate for critic network
     num_layers: int = 2,
     random_seed: int = 0,  # set random seed if required (0 = no random seed)
+    run: Optional[Run] = None,
 ):
     print(
         "============================================================================================"
@@ -244,7 +246,8 @@ def train(
             if time_step % log_freq == 0:
                 # log average reward till last episode
                 log_avg_reward = log_running_reward / log_running_episodes
-                session.report({"mean_accuracy": log_avg_reward})
+                if run is not None:
+                    run.log(dict(mean_accuracy=log_avg_reward), step=time_step)
                 log_avg_reward = round(log_avg_reward, 4)
 
                 log_f.write("{},{},{}\n".format(i_episode, time_step, log_avg_reward))
