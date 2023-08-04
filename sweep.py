@@ -13,8 +13,8 @@ from dollar_lambda import command
 
 project = "icpi"
 param_space = {
-    "lr_actor": tune.grid_search([0.1, 0.05, 0.001]),
-    "lr_critic": tune.grid_search([0.1, 0.05, 0.001]),
+    "lr_actor": tune.grid_search([0.005, 0.002, 0.001]),
+    "lr_critic": tune.grid_search([0.001, 0.0005, 0.0001]),
     "hidden_dim": tune.grid_search([256, 512, 1024]),
     "num_layers": tune.grid_search([0, 1]),
 }
