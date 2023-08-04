@@ -20,12 +20,13 @@ from typing import List, NamedTuple, Optional, Tuple, cast
 import dm_env
 import gym
 import numpy as np
-from bsuite.environments import base
+from bsuite.environments.base import Environment
 from bsuite.experiments.catch import sweep
 from dm_env import specs
 from gym.spaces import Discrete, MultiDiscrete
 
 from icpi.base import Data, TimeStep
+from icpi import base
 from icpi.wrapper import ArrayWrapper
 from gym.wrappers import TimeLimit
 
@@ -54,7 +55,7 @@ class Obs(NamedTuple):
     ball_y: int
 
 
-class Env(base.Environment):
+class Env(Environment):
     """A Catch environment built on the dm_env.Environment class.
 
     The agent must move a paddle to intercept falling balls. Falling balls only
@@ -88,10 +89,14 @@ class Env(base.Environment):
         self._paddle_y = None
         self.bsuite_num_episodes = sweep.NUM_EPISODES
         self.reset()
+        self.reward_range = (0, 1)
+        self.metadata = {}
         self.action_space = gym.spaces.Discrete(len(_ACTIONS))
         self.observation_space = gym.spaces.Box(
             low=0, high=1, shape=self.obs_array().shape
         )
+        self.spec = None
+        self.unwrapped = self
 
     def render(self, mode="human"):
         pass
@@ -125,7 +130,7 @@ class Env(base.Environment):
     def observation_spec(self) -> specs.BoundedArray:
         """Returns the observation spec."""
         return specs.BoundedArray(
-            dtype=np.int,
+            dtype=int,
             minimum=0,
             maximum=max(self.rows, self.columns),
             name="observation",
@@ -156,10 +161,10 @@ class Wrapper(gym.Wrapper, base.Env[Obs, int]):
         super().__init__(cast(gym.Env, env))
         self.data = data
         self.hint = hint
-        self.action_space = Discrete(3, seed=env.random_seed)
+        self.action_space = Discrete(3)
         spec = env.observation_spec()
         self.observation_space = MultiDiscrete(
-            np.full(spec.shape, spec.maximum - spec.minimum), seed=env.random_seed
+            np.full(spec.shape, spec.maximum - spec.minimum)
         )
 
     def action_stop(self) -> str:
