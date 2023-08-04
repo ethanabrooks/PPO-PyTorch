@@ -46,6 +46,7 @@ class ActorCritic(nn.Module):
         action_dim,
         has_continuous_action_space,
         hidden_dim,
+        num_layers,
         action_std_init,
     ):
         super(ActorCritic, self).__init__()
@@ -57,13 +58,18 @@ class ActorCritic(nn.Module):
             self.action_var = torch.full(
                 (action_dim,), action_std_init * action_std_init
             ).to(device)
+
+        def mlp():
+            for _ in range(num_layers):
+                yield nn.Linear(hidden_dim, hidden_dim)
+                yield nn.Tanh()
+
         # actor
         if has_continuous_action_space:
             self.actor = nn.Sequential(
                 nn.Linear(state_dim, hidden_dim),
                 nn.Tanh(),
-                nn.Linear(hidden_dim, hidden_dim),
-                nn.Tanh(),
+                *mlp(),
                 nn.Linear(hidden_dim, action_dim),
                 nn.Tanh(),
             )
@@ -71,8 +77,7 @@ class ActorCritic(nn.Module):
             self.actor = nn.Sequential(
                 nn.Linear(state_dim, hidden_dim),
                 nn.Tanh(),
-                nn.Linear(hidden_dim, hidden_dim),
-                nn.Tanh(),
+                *mlp(),
                 nn.Linear(hidden_dim, action_dim),
                 nn.Softmax(dim=-1),
             )
@@ -80,8 +85,7 @@ class ActorCritic(nn.Module):
         self.critic = nn.Sequential(
             nn.Linear(state_dim, hidden_dim),
             nn.Tanh(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.Tanh(),
+            *mlp(),
             nn.Linear(hidden_dim, 1),
         )
 
@@ -152,6 +156,7 @@ class PPO:
         eps_clip,
         has_continuous_action_space,
         hidden_dim,
+        num_layers,
         action_std_init=0.6,
     ):
         self.has_continuous_action_space = has_continuous_action_space
@@ -170,6 +175,7 @@ class PPO:
             action_dim,
             has_continuous_action_space,
             hidden_dim,
+            num_layers,
             action_std_init,
         ).to(device)
         self.optimizer = torch.optim.Adam(
@@ -184,6 +190,7 @@ class PPO:
             action_dim,
             has_continuous_action_space,
             hidden_dim,
+            num_layers,
             action_std_init,
         ).to(device)
         self.policy_old.load_state_dict(self.policy.state_dict())

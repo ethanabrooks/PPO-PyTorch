@@ -20,6 +20,7 @@ def train(
     hidden_dim: int = 64,
     lr_actor: float = 0.0003,  # learning rate for actor network
     lr_critic: float = 0.001,  # learning rate for critic network
+    num_layers: int = 2,
     random_seed: int = 0,  # set random seed if required (0 = no random seed)
 ):
     print(
@@ -128,6 +129,7 @@ def train(
     print("state space dimension : ", state_dim)
     print("action space dimension : ", action_dim)
     print("hidden dimension : ", hidden_dim)
+    print("number of layers : ", num_layers)
     print(
         "--------------------------------------------------------------------------------------------"
     )
@@ -185,6 +187,7 @@ def train(
         eps_clip,
         has_continuous_action_space,
         hidden_dim,
+        num_layers,
         action_std,
     )
 
