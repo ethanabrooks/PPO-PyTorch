@@ -27,7 +27,7 @@ class Env(base.Env):
     t: int = field(init=False)
 
     def __post_init__(self):
-        self.action_space = Discrete(2, seed=self.random_seed)
+        self.action_space = Discrete(2)
         self.rng = np.random.default_rng(self.random_seed)
         self.reset()
         self.observation_space = gym.spaces.Box(

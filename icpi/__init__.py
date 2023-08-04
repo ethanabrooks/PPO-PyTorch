@@ -81,7 +81,7 @@ register(
     kwargs={
         "entry_point": "icpi.point_mass:Env",
         "max_distance": 6,
-        "max_trajectory": 8,
+        "_max_trajectory": 8,
         "pos_threshold": 2,
         "random_seed": 0,
         "max_episode_steps": 8,
