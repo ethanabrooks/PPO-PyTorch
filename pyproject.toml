@@ -15,6 +15,7 @@ wandb = "^0.14.1"
 ray = {version = "^2.3.1", extras = ["tune"]}
 rich = "^13.4.2"
 bsuite = "^0.3.5"
+dollar-lambda = "^1.1.4"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.6.0"

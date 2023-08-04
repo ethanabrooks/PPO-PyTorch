@@ -7,20 +7,26 @@ import numpy as np
 import gym
 
 from PPO import PPO
+from dollar_lambda import command
 import icpi
 
 
 ################################### Training ###################################
-def train():
+@command()
+def train(
+    env_name: str,
+    gamma: float = 0.99,  # discount factor
+    has_continuous_action_space: bool = False,  # continuous action space vs discrete action space
+    hidden_dim: int = 64,
+    lr_actor: float = 0.0003,  # learning rate for actor network
+    lr_critic: float = 0.001,  # learning rate for critic network
+    random_seed: int = 0,  # set random seed if required (0 = no random seed)
+):
     print(
         "============================================================================================"
     )
 
     ####### initialize environment hyperparameters ######
-    env_name = "chain-v0"
-
-    has_continuous_action_space = False  # continuous action space; else discrete
-
     max_ep_len = 1000  # max timesteps in one episode
     max_training_timesteps = int(
         3e6
@@ -45,12 +51,7 @@ def train():
     K_epochs = 80  # update policy for K epochs in one PPO update
 
     eps_clip = 0.2  # clip parameter for PPO
-    gamma = 0.99  # discount factor
 
-    lr_actor = 0.0003  # learning rate for actor network
-    lr_critic = 0.001  # learning rate for critic network
-
-    random_seed = 0  # set random seed if required (0 = no random seed)
     #####################################################
 
     print("training environment name : " + env_name)
@@ -126,6 +127,7 @@ def train():
     )
     print("state space dimension : ", state_dim)
     print("action space dimension : ", action_dim)
+    print("hidden dimension : ", hidden_dim)
     print(
         "--------------------------------------------------------------------------------------------"
     )
@@ -182,6 +184,7 @@ def train():
         K_epochs,
         eps_clip,
         has_continuous_action_space,
+        hidden_dim,
         action_std,
     )
 
