@@ -247,7 +247,7 @@ def train(
             if time_step % log_freq == 0:
                 # log average reward till last episode
                 log_avg_reward = log_running_reward / log_running_episodes
-                log = dict(mean_accuracy=log_avg_reward)
+                log = {"Mean return per episode": log_avg_reward}
                 if run is not None:
                     run.log(log, step=time_step)
                 session.report(log)
