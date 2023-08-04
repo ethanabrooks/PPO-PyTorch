@@ -27,8 +27,15 @@ register(
 #     )
 register(
     "distractor-chain-v0",
-    entry_point="icpi.chain:create",
-    kwargs={"d": 2, "goal": 4, "n": 8, "random_seed": 0, "max_episode_steps": 8},
+    entry_point="icpi.base:create",
+    kwargs={
+        "entry_point": "icpi.chain:Env",
+        "d": 2,
+        "goal": 4,
+        "n": 8,
+        "random_seed": 0,
+        "max_episode_steps": 8,
+    },
     max_episode_steps=8,
 )
 # elif env_id == "maze":
