@@ -7,6 +7,7 @@ import numpy as np
 import gym
 
 from PPO import PPO
+import icpi
 
 
 ################################### Training ###################################
@@ -16,7 +17,7 @@ def train():
     )
 
     ####### initialize environment hyperparameters ######
-    env_name = "CartPole-v1"
+    env_name = "chain-v0"
 
     has_continuous_action_space = False  # continuous action space; else discrete
 

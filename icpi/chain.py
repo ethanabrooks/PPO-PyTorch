@@ -100,7 +100,7 @@ class Env(base.Env[int, int]):
         done = action == 1
         success = done and self._state[0] == self.goal
         state = tuple(self._state)
-        return state, 1, done, info
+        return state, success, done, info
 
     def ts_to_string(self, ts: TimeStep) -> str:
         reward_str = f"assert reward == {ts.reward}"
