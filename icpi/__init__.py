@@ -84,7 +84,7 @@ register(
         "max_trajectory": 8,
         "pos_threshold": 2,
         "random_seed": 0,
-        "max_episode_step": 8,
+        "max_episode_steps": 8,
     },
 )
 # elif env_id == "space-invaders":
@@ -100,10 +100,11 @@ register(
     "space-invaders-v0",
     entry_point="icpi.base:create",
     kwargs={
-        "entry_point": "icpi.space_invaders:create",
+        "entry_point": "icpi.space_invaders:Env",
         "width": 4,
         "height": 5,
         "n_aliens": 2,
         "random_seed": 0,
+        "max_episode_steps": 100,
     },
 )

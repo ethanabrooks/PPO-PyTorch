@@ -191,8 +191,12 @@ class Env(base.Env[Obs, int]):
     def obs_array(self) -> np.ndarray:
         def aliens():
             for a in self.aliens:
-                yield a.xy.x
-                yield a.xy.y
+                try:
+                    yield a.xy.x
+                    yield a.xy.y
+                except AttributeError:
+                    yield -1
+                    yield -1
 
         return np.array([self.agent, *aliens()])
 
